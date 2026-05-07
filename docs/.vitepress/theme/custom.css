@@ -1,0 +1,479 @@
+/* CSS Variables */
+:root {
+  --vp-c-brand: #c75b39;
+  --vp-c-brand-light: #d4734f;
+  --vp-c-brand-dark: #a84a2e;
+  --bg-warm: #faf8f5;
+  --accent-blue: #3d6b99;
+  --accent-green: #4a7c59;
+  --border-light: #e8e4df;
+  --memory-bg: #fffef9;
+  --memory-border: #d4c5a9;
+  --core-bg: #f8f4ec;
+  --oneliner-bg: #f0f5f0;
+}
+
+.dark {
+  --vp-c-brand: #d4734f;
+  --vp-c-brand-light: #e08965;
+  --vp-c-brand-dark: #c75b39;
+  --bg-warm: #1a1a1a;
+  --accent-blue: #5a8fb8;
+  --accent-green: #6ba368;
+  --border-light: #3a3a3a;
+  --memory-bg: #242320;
+  --memory-border: #3e3a35;
+  --core-bg: #35322e;
+  --oneliner-bg: #2c342c;
+}
+
+/* ============================================
+   基础样式与纸张纹理背景
+   ============================================ */
+
+body {
+  background-color: var(--bg-warm);
+  font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
+  line-height: 1.8;
+}
+
+/* 纸张纹理背景 - 模拟横线纸效果 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 27px,
+    rgba(200, 180, 160, 0.08) 28px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark body::before {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 27px,
+    rgba(100, 100, 100, 0.15) 28px
+  );
+}
+
+/* ============================================
+   标题样式优化
+   ============================================ */
+
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+  font-family: 'Noto Serif SC', 'PingFang SC', serif;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+/* H1 - 主标题：双线底部装饰 + 星形符号 */
+.vp-doc h1 {
+  font-size: 32px !important;
+  color: var(--vp-c-text-1) !important;
+  border-bottom: 3px double var(--vp-c-brand) !important;
+  padding-bottom: 15px !important;
+  margin-bottom: 40px !important;
+  position: relative;
+}
+
+.vp-doc h1::after {
+  content: '✦';
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  color: var(--vp-c-brand);
+  font-size: 20px;
+}
+
+/* H2 - 二级标题：左侧蓝色边框 */
+.vp-doc h2 {
+  font-size: 22px !important;
+  color: var(--accent-blue) !important;
+  border-left: 4px solid var(--accent-blue) !important;
+  padding-left: 15px !important;
+  margin-top: 50px !important;
+  margin-bottom: 20px !important;
+}
+
+/* H3 - 三级标题：暖色点缀 */
+.vp-doc h3 {
+  font-size: 17px !important;
+  color: var(--vp-c-text-2) !important;
+  margin-top: 35px !important;
+  margin-bottom: 15px !important;
+}
+
+.vp-doc h3::before {
+  content: '▸ ';
+  color: var(--vp-c-brand);
+  font-weight: 600;
+}
+
+/* ============================================
+   记忆要点卡片 - 核心组件
+   ============================================ */
+
+/* 外层卡片 */
+.memory-aid {
+  background: linear-gradient(135deg, var(--memory-bg) 0%, #faf5f0 100%) !important;
+  border: 1px solid var(--memory-border) !important;
+  border-left: 4px solid var(--vp-c-brand) !important;
+  border-radius: 4px !important;
+  padding: 24px 28px !important;
+  margin: 25px 0 35px 0 !important;
+  position: relative !important;
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 2px 6px rgba(199, 91, 57, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+.memory-aid:hover {
+  box-shadow:
+    0 4px 12px rgba(199, 91, 57, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-2px) !important;
+  border-left-color: var(--accent-blue) !important;
+}
+
+/* 深色模式下的卡片样式 */
+.dark .memory-aid {
+  background: linear-gradient(135deg, var(--memory-bg) 0%, #1e1c19 100%) !important;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .memory-aid:hover {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* "记忆要点" 标签 */
+.memory-aid::before {
+  content: ' 记忆要点';
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  background: var(--bg-warm);
+  color: var(--vp-c-brand);
+  padding: 2px 12px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1px;
+  border-radius: 2px;
+}
+
+.dark .memory-aid::before {
+  background: var(--bg-warm);
+}
+
+.memory-aid ul,
+.memory-aid ol {
+  margin: 12px 0 5px 18px !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.memory-aid li {
+  margin-bottom: 10px !important;
+  position: relative;
+  padding-left: 20px !important;
+  line-height: 1.7 !important;
+  list-style: none !important;
+}
+
+.memory-aid li::before {
+  content: '•' !important;
+  position: absolute;
+  left: 0 !important;
+  color: var(--vp-c-brand) !important;
+  font-weight: bold !important;
+  font-size: 18px !important;
+  line-height: 1.5 !important;
+}
+
+/* 防止意外的斜体 */
+.memory-aid *,
+.original-text * {
+  font-style: normal !important;
+}
+
+/* 核心逻辑框 */
+.memory-aid .core-logic {
+  background: var(--core-bg);
+  padding: 10px 15px;
+  border-radius: 2px;
+  margin: 12px 0;
+  font-weight: 600;
+  display: block;
+  border-left: 2px solid var(--vp-c-brand);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* 一句话总结 */
+.memory-aid .one-liner {
+  background: var(--oneliner-bg);
+  border-left: 3px solid var(--accent-green);
+  padding: 10px 15px;
+  margin: 18px 0 5px;
+  font-weight: 600;
+  border-radius: 2px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* ============================================
+   原始文本框 - 引用块样式
+   ============================================ */
+
+.original-text {
+  background: var(--vp-c-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 3px !important;
+  padding: 25px 28px !important;
+  margin: 20px 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  white-space: pre-wrap !important;
+  font-size: 15px !important;
+  line-height: 1.9 !important;
+  font-style: normal !important;
+  font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif !important;
+  position: relative !important;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+/* 强制统一内部所有元素的字体 - 最高优先级 */
+:root .vp-doc .original-text *,
+:root .vp-doc .original-text p,
+:root .vp-doc .original-text span,
+:root .vp-doc .original-text div {
+  font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif !important;
+  font-size: 15px !important;
+  line-height: 1.9 !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  color: var(--vp-c-text-1) !important;
+  opacity: 1 !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* 强制覆盖 VitePress 对连续段落的浅灰色样式 */
+:root .vp-doc .original-text p + p,
+:root .vp-doc .original-text p ~ p {
+  color: var(--vp-c-text-1) !important;
+  opacity: 1 !important;
+}
+
+/* 引用符号 */
+.original-text::before {
+  content: '"' !important;
+  position: absolute !important;
+  top: -5px !important;
+  left: 10px !important;
+  font-size: 60px !important;
+  color: rgba(199, 91, 57, 0.12) !important;
+  font-family: Georgia, serif !important;
+  line-height: 1 !important;
+  font-style: normal !important;
+  pointer-events: none !important;
+}
+
+.dark .original-text::before {
+  color: rgba(212, 115, 79, 0.15) !important;
+}
+
+.original-text:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* 引号装饰 */
+.original-text::before {
+  content: '"';
+  position: absolute;
+  top: -5px;
+  left: 10px;
+  font-size: 60px;
+  color: rgba(199, 91, 57, 0.12);
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.dark .original-text::before {
+  color: rgba(212, 115, 79, 0.15);
+}
+
+/* ============================================
+   代码块美化 - 渐变背景 + 悬停动效
+   ============================================ */
+
+.vp-doc div[class*='language-'] {
+  background: linear-gradient(135deg, #f6f8fa 0%, #f0f2f5 100%);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--accent-blue);
+  border-radius: 6px;
+  padding: 20px 22px;
+  margin: 18px 0;
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: auto;
+}
+
+/* "CODE" 标签 */
+.vp-doc div[class*='language-']::before {
+  content: 'CODE';
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 10px;
+  color: var(--accent-blue);
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* 悬停效果 */
+.vp-doc div[class*='language-']:hover {
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(61, 107, 153, 0.1);
+  border-left-color: var(--vp-c-brand);
+  transform: translateX(2px);
+}
+
+/* 深色模式适配 */
+.dark .vp-doc div[class*='language-'] {
+  background: linear-gradient(135deg, #2d2d2d 0%, #252525 100%);
+  border-color: #4a4a4a;
+  border-left-color: var(--accent-blue);
+}
+
+.dark .vp-doc div[class*='language-']:hover {
+  border-left-color: var(--vp-c-brand);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(90, 143, 184, 0.15);
+}
+
+/* 代码字体 */
+.vp-doc div[class*='language-'] code {
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--vp-c-text-1);
+}
+
+/* ============================================
+   全局样式增强
+   ============================================ */
+
+/* 加粗文字 - 暖色强调 */
+.vp-doc strong {
+  color: var(--vp-c-brand);
+  font-weight: 600;
+}
+
+/* 导航栏半透明毛玻璃效果 */
+.VPNavBar {
+  background: rgba(250, 248, 245, 0.9) !important;
+  backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid rgba(232, 228, 223, 0.5) !important;
+  transition: all 0.3s ease;
+}
+
+.dark .VPNavBar {
+  background: rgba(26, 26, 26, 0.9) !important;
+  border-bottom: 1px solid rgba(58, 58, 58, 0.5) !important;
+}
+
+/* 首页 Hero 区域背景 */
+.VPHomeHero {
+  background: var(--bg-warm);
+}
+
+/* 内容区域最大宽度优化 */
+.VPDoc .container {
+  max-width: 900px;
+}
+
+.VPDoc .content-container {
+  max-width: 100%;
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 选中文本颜色 */
+::selection {
+  background: rgba(199, 91, 57, 0.15);
+  color: var(--vp-c-text-1);
+}
+
+.dark ::selection {
+  background: rgba(212, 115, 79, 0.2);
+}
+
+/* 页面底部装饰文字 */
+.vp-doc p:last-child {
+  text-align: center;
+  color: var(--vp-c-text-2);
+  margin-top: 60px;
+  font-style: italic;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* 链接样式优化 */
+.vp-doc a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.vp-doc a:hover {
+  border-bottom-color: var(--accent-blue);
+}
+
+/* 列表样式优化 */
+.vp-doc ul,
+.vp-doc ol {
+  padding-left: 24px;
+}
+
+.vp-doc li {
+  margin-bottom: 8px;
+  line-height: 1.8;
+}
+
+/* 引用块样式（如果使用 Markdown 引用语法） */
+.vp-doc blockquote {
+  border-left: 3px solid var(--vp-c-brand);
+  padding: 12px 20px;
+  margin: 20px 0;
+  background: var(--memory-bg);
+  border-radius: 2px;
+  font-style: italic;
+  color: var(--vp-c-text-2);
+}
