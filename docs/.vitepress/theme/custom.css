@@ -267,10 +267,14 @@ body::before {
   font-size: 15px !important;
   line-height: 1.9 !important;
   font-style: normal !important;
-  font-weight: 400 !important;
   color: var(--vp-c-text-1) !important;
   opacity: 1 !important;
   letter-spacing: 0.02em !important;
+}
+
+/* 专门处理 original-text 内部的加粗 */
+:root .vp-doc .original-text strong {
+  font-weight: 700 !important;
 }
 
 /* 强制覆盖 VitePress 对连续段落的浅灰色样式 */
