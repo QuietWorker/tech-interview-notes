@@ -22,6 +22,7 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: 'Elpis框架', link: '/elpis/domain-model/index' },
       { text: '为乐PC端', link: '/weile-pc/bpmn/workflow' },
+      { text: '为乐UniApp', link: '/weile-uniapp/multi-platform-architecture/index' },
     ],
 
     // 侧边栏配置 - 按项目组织
@@ -56,6 +57,18 @@ export default defineConfig({
               text: '上传组件分析',
               link: '/weile-pc/upload_component_analysis/upload_component_analysis',
             },
+          ],
+        },
+      ],
+      '/weile-uniapp/': [
+        {
+          text: '为乐 UniApp',
+          collapsed: false,
+          items: [
+            { text: '多端统一架构', link: '/weile-uniapp/multi-platform-architecture/index' },
+            { text: '硬件交互集成', link: '/weile-uniapp/hardware-integration/index' },
+            { text: '业务组件封装', link: '/weile-uniapp/business-components/index' },
+            { text: '网络容错与用户体验', link: '/weile-uniapp/network-resilience/index' },
           ],
         },
       ],
