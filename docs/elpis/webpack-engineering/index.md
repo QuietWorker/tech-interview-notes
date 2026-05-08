@@ -7,6 +7,10 @@ outline: deep
 
 ## 重难点2：基于Webpack5搭建前端工程化体系，自研热更新服务
 
+<div class='original-text'>
+工程化这块我主要做了三件事：自研热更新服务、多环境差异化构建、生产构建优化。第一个是我们这个框架是服务端渲染架构，前端构建完的模板要给后端 Koa 服务用。如果直接用 webpack-dev-server，它所有文件都在内存里，后端读不到模板，而且配置不够灵活，没法作为框架能力集成给用户。所以我自研了一套热更新服务。基于 Express 加 webpack 的两个中间件，webpack-dev-middleware 负责监听文件和编译，webpack-hot-middleware 负责热更新通信。关键是我做了差异化处理，模板文件落盘给后端用，JS 和 CSS 放内存里保证热更新速度。配置了跨域支持，因为前端资源是9002端口，页面是8080端口渲染的。这样开发体验很好，改代码基本秒级就能看到效果，前后端协作也很顺畅。第二个是多环境配置。开发环境要快要有调试信息，生产环境要小要安全。我用 webpack-merge 做了分层配置，base 放通用配置，dev 和 prod 各自放环境特有配置。开发环境主要是开启了 source-map、热更新插件，构建速度优先。生产环境主要是代码压缩、CSS 提取、多线程打包、去掉 console.log 这些。用户调用框架时传个环境变量，就自动用对应配置，不需要自己折腾 webpack。第三个是构建优化。生产环境我做了全套优化：HappyPack 多线程打包，利用多核 CPU；TerserPlugin 压缩 JS 并开启缓存和并行；MiniCssExtractPlugin 提取 CSS；文件名用 chunkhash 做缓存控制；CleanWebpackPlugin 清理旧文件；babel-loader 只编译业务代码不碰 node_modules。效果很明显：开发环境首次构建5秒，增量编译1秒内；生产构建速度提升了40%，从2分钟降到1分钟多；产物体积压缩了60%，一个中等项目从2MB 压到800KB；首屏时间从3秒降到1.5秒左右。而且这套方案很稳定，用户零配置就能用，已经在多个项目里持续使用，没出过问题。
+</div>
+
 <div class="memory-aid">
   <div class="core-logic">💡 核心逻辑：SSR需要模板落盘 → 自研Express热更新服务 → 分层配置应对多环境 → 生产构建深度优化</div>
   <ul>
